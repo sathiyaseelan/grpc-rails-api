@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package userdata.v1;
+
+// The Service to access Users Repository
+service UserData {
+    // Create a new user
+    rpc createUser(CreateUserRequest) returns (User) {}
+    
+    // Get the user by id or email
+    rpc getUser(GetUserRequest) returns (User) {}
+
+    rpc deleteUser(DeleteUserRequest) returns (DeleteResponse) {}
+}
+
+message DeleteUserRequest {
+    int32 id = 1;
+}
+message DeleteResponse {
+    bool status = 1;
+}
+
+message CreateUserRequest {
+    string first_name = 1;
+    string last_name = 2;
+    string email = 3;
+}
+
+message GetUserRequest {
+    // Either id or Email is expected
+    oneof unique_user_oneof {
+        int32 id = 1;
+        string email = 2;
+    }
+}
+
+message User {
+    int32 id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string email = 4;
+}
